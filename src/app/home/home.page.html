@@ -1,0 +1,62 @@
+<!-- =========================================================================
+     home.page.html  -  Pagina "home" de la practica de diseno
+     -------------------------------------------------------------------------
+     Se mezclan a proposito etiquetas Ionic (<ion-content>, <ion-button>) con
+     etiquetas HTML estandar (<h1>, <img>, <figure>, <p>) para demostrar que
+     ambas conviven sin problema: los componentes de Ionic son Web Components,
+     asi que el navegador los trata como cualquier otra etiqueta del DOM.
+
+     No hay <ion-header>: la pagina solo muestra los tres elementos que pide
+     el enunciado (titulo, boton e imagen) sobre fondo blanco.
+     ========================================================================= -->
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- ===================================================================
+       REQUISITO 4: TITULO
+       Etiqueta HTML normal <h1>. Todo el aspecto (rojo, mayusculas y
+       centrado) se define en home.page.scss, no con atributos en el HTML:
+       separacion entre estructura (HTML) y presentacion (Sass/CSS).
+       =================================================================== -->
+  <h1 class="titulo-principal">Diseño con Ionic y Angular</h1>
+
+  <!-- ===================================================================
+       REQUISITO 5: BOTON ALINEADO A LA DERECHA Y AZUL
+       <ion-button> es un componente Ionic. Su color se cambia mediante las
+       CSS custom properties que expone (--background, --color...), que es
+       la via recomendada por Ionic frente a sobrescribir su CSS interno.
+       El contenedor .barra-acciones es el que lo empuja a la derecha.
+       =================================================================== -->
+  <div class="barra-acciones">
+    <ion-button class="boton-principal" (click)="saludar()">
+      Pulsame
+    </ion-button>
+  </div>
+
+  <!-- Mensaje que aparece al pulsar el boton. @if es el nuevo control de
+       flujo de plantillas de Angular (sustituye a *ngIf). -->
+  @if (pulsaciones() > 0) {
+    <p class="mensaje" role="status" aria-live="polite">
+      Has pulsado el botón {{ pulsaciones() }}
+      {{ pulsaciones() === 1 ? 'vez' : 'veces' }}.
+    </p>
+  }
+
+  <!-- ===================================================================
+       REQUISITO 6: IMAGEN CENTRADA CON BORDE VERDE DE 3px
+       Se usa la etiqueta HTML <img> envuelta en una <figure>. El centrado se
+       consigue con margin-inline: auto (mixin bloque-centrado de Sass) y el
+       borde con border: 3px solid verde.
+       El atributo alt es obligatorio para la accesibilidad (WCAG 1.1.1).
+       width/height evitan el salto de maquetacion (CLS) al cargar.
+       =================================================================== -->
+  <figure class="figura-imagen">
+    <img
+      class="imagen-destacada"
+      src="assets/img/quokka.jpg"
+      alt="Un quokka mirando a la cámara en su hábitat natural"
+      width="440"
+      height="696" />
+  </figure>
+
+</ion-content>

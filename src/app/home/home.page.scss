@@ -1,0 +1,98 @@
+// =============================================================================
+//  home.page.scss  -  Estilos de la pagina home (Sass, sintaxis SCSS)
+// =============================================================================
+//  Este fichero lo genero el schematic de Ionic (ng generate page home) ya con
+//  extension .scss, porque angular.json tiene configurado "styleext": "scss".
+//  Angular lo compila automaticamente: no hace falta sass --watch ni ningun
+//  script "watch:sass".
+//
+//  Ademas, Angular aplica encapsulacion de estilos (ViewEncapsulation.Emulated)
+//  por defecto: estas reglas solo afectan a esta pagina, aunque usemos
+//  selectores genericos como h1 o img.
+// =============================================================================
+
+// Importamos el partial con las variables y los mixins.
+// @use es la forma moderna (el viejo @import de Sass esta deprecado).
+// El prefijo "d" es el namespace: d.$color-titulo, d.bloque-centrado()...
+@use '../../theme/diseno' as d;
+
+// -----------------------------------------------------------------------------
+// FONDO BLANCO
+// -----------------------------------------------------------------------------
+//  ion-content no se pinta con "background" sino con la custom property
+//  --background. Se fuerza el blanco para que la pagina no herede el fondo
+//  oscuro del modo oscuro del sistema.
+ion-content {
+  --background: #{d.$color-fondo};
+  --color: #{d.$color-texto};
+}
+
+// -----------------------------------------------------------------------------
+// REQUISITO 4: titulo en rojo, en mayusculas y centrado
+// -----------------------------------------------------------------------------
+.titulo-principal {
+  color: d.$color-titulo;          // rojo definido como variable de Sass
+  text-transform: uppercase;       // mayusculas por CSS, el HTML sigue legible
+  text-align: center;              // centrado del texto
+  letter-spacing: 0.06em;
+  margin-block: d.$espaciado-base * 1.5 d.$espaciado-base;
+  line-height: 1.25;
+
+  // clamp() adapta el tamaño al ancho del movil sin necesidad de media queries:
+  // minimo 1.25rem, ideal 5.5vw, maximo 1.9rem.
+  font-size: clamp(1.25rem, 5.5vw, 1.9rem);
+  overflow-wrap: break-word;
+}
+
+// -----------------------------------------------------------------------------
+// REQUISITO 5: boton a la derecha y azul
+// -----------------------------------------------------------------------------
+.barra-acciones {
+  display: flex;
+  justify-content: flex-end;       // empuja el boton al borde derecho
+  margin-bottom: d.$espaciado-base;
+
+  // ANIDAMIENTO (nesting): otra ventaja de Sass. Compila a
+  // ".barra-acciones .boton-principal { ... }"
+  .boton-principal {
+    // ion-button no se pinta con "background" normal: expone custom properties.
+    --background: #{d.$color-boton};                  // azul
+    --background-hover: #{d.oscurecer(d.$color-boton, 12%)};
+    --background-activated: #{d.oscurecer(d.$color-boton, 22%)};
+    --color: #fff;                                    // texto blanco
+    --border-radius: 8px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+
+    text-transform: none;
+    font-weight: 600;
+  }
+}
+
+// Mensaje informativo que se muestra al pulsar el boton
+.mensaje {
+  text-align: center;
+  font-style: italic;
+  color: d.$color-texto-suave;
+  margin-block: 0 d.$espaciado-base;
+}
+
+// -----------------------------------------------------------------------------
+// REQUISITO 6: imagen centrada con borde verde de 3px
+// -----------------------------------------------------------------------------
+.figura-imagen {
+  // Usamos el mixin del partial para centrar el bloque (margin-inline: auto)
+  @include d.bloque-centrado(fit-content);
+
+  margin-block: d.$espaciado-base;
+
+  .imagen-destacada {
+    @include d.bloque-centrado(100%);                  // centrado del <img>
+
+    max-width: d.$ancho-maximo-imagen;
+    height: auto;                                      // mantiene proporcion
+    border: d.$grosor-borde-imagen solid d.$color-borde-imagen;  // 3px verde
+    border-radius: d.$radio-imagen;
+    box-sizing: border-box;
+  }
+}

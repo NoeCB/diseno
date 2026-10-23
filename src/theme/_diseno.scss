@@ -1,0 +1,48 @@
+// =============================================================================
+//  _diseno.scss  -  Partial de Sass con los "tokens" de diseno de la practica
+// =============================================================================
+//  El guion bajo inicial (_) marca el fichero como PARTIAL: Sass no lo compila
+//  a un .css independiente, solo se usa cuando otro fichero lo importa con @use.
+//
+//  Se usa la sintaxis moderna @use / @forward (el antiguo @import de Sass esta
+//  deprecado). Todo lo que hay aqui se consume desde home.page.scss.
+// =============================================================================
+
+@use 'sass:color';
+
+// -----------------------------------------------------------------------------
+// 1. Variables (una de las razones principales para usar Sass en vez de CSS)
+// -----------------------------------------------------------------------------
+$color-titulo:        #d32f2f;   // rojo del titulo  (requisito 4)
+$color-boton:         #1976d2;   // azul del boton   (requisito 5)
+$color-borde-imagen:  #2e7d32;   // verde del borde  (requisito 6)
+
+$color-fondo:         #ffffff;   // fondo blanco de la pagina
+$color-texto:         #1f2933;   // texto principal sobre fondo blanco
+$color-texto-suave:   #6b7280;   // texto secundario (mensajes)
+
+$grosor-borde-imagen: 3px;       // requisito 6: borde de 3px exactos
+$radio-imagen:        12px;
+$ancho-maximo-imagen: 320px;
+
+$espaciado-base:      16px;
+
+// -----------------------------------------------------------------------------
+// 2. Mixin reutilizable: centrar un bloque horizontalmente
+// -----------------------------------------------------------------------------
+//  Un mixin es un trozo de CSS parametrizable y reutilizable. En CSS plano
+//  habria que repetir estas tres lineas en cada selector.
+@mixin bloque-centrado($ancho: 100%) {
+  display: block;
+  width: $ancho;
+  margin-inline: auto;   // margen izquierdo y derecho automaticos => centrado
+}
+
+// -----------------------------------------------------------------------------
+// 3. Funcion de color: Sass calcula el tono oscuro del azul en compilacion
+// -----------------------------------------------------------------------------
+//  color.scale() es una funcion nativa de Sass. El navegador nunca ve la
+//  llamada: recibe ya el hexadecimal resultante.
+@function oscurecer($color, $cantidad: 20%) {
+  @return color.scale($color, $lightness: -$cantidad);
+}
